@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pbielanin</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/mediaQueries.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://i.imgur.com/MkWd9av.png">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <section class="pageTitle">
+                pbielanin
+            </section>
+            <section class="pageLanguage">
+                <button class="lang" @click="activeLang = 'pl'" :class="{'activeLang': activeLang == 'pl'}">PL</button>
+                <p>&nbsp;&nbsp;</p>
+                <button class="lang" @click="activeLang = 'eng'"
+                    :class="{'activeLang': activeLang == 'eng'}">ENG</button>
+            </section>
+
+            <div class="wrapper">
+                <section class="wrapperImg">
+                    <img src="img/pbielaninimg.jpg" alt="image">
+                </section>
+
+                <section class="wrapperText">
+                    <h1>portfolio</h1>
+                    <p>{{pageText[0].portfolio}}</p>
+
+                    <section class="buttons">
+                        <button class="projectsButton">
+                            projects
+                        </button>
+
+                        <a :href="pageText[0].cv" target="_blank">
+                            <button>
+                                cv
+                            </button>
+                        </a>
+
+                        <a href="https://github.com/PatrykBielanin" target="_blank">
+                            <button>
+                                github
+                            </button>
+                        </a>
+                    </section>
+                </section>
+            </div>
+            <div class="projects hide">
+                <h1>projects</h1>
+                <p>{{pageText[0].projects}}</p>
+
+                <h1 class="frontend">frontend</h1>
+                <section class="projectsDivs">
+                    <section class="project" v-for="project in projects" :key="project.header"
+                        @click="toggleModal(project.name, project.description, project.technologies, project.github, project.demo)">
+                        <section class="image" :style="{'background-color': project.styles[0].bg}">
+                            <h1 :style="{'font-size': project.styles[0].fontSize}">{{project.header}}</h1>
+                        </section>
+
+                        <section class="projectInfo">
+                            <h2>{{project.name}}</h2>
+                            <p>{{project.description}}</p>
+
+                            <section class="technologies">
+                                <p style="opacity: 0.5;" v-for="tech in project.technologies[0]">{{tech}}</p>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+
+
+            </div>
+
+            <div class="about hide">
+                <h1>about</h1>
+                <p>{{pageText[0].about}}</p>
+
+                <section class="skills">
+                    <p style="font-size: 36px; border-bottom: 1px solid rgba(126, 1, 126, 0.555);">SKILLS</p>
+
+                    <p>Programming languages</p>
+                    <section class="programming">
+                        <button>JavaScript</button>
+                        <button>Python</button>
+                        <button>PHP</button>
+                        <button>LUA</button>
+                    </section>
+
+                    <p>Frameworks</p>
+                    <section class="frameworks">
+                        <button>Vue.js</button>
+                        <button>React</button>
+                        <button>Django</button>
+                    </section>
+
+                    <p>Others</p>
+                    <section class="others">
+                        <button>VueX</button>
+                        <button>jQuery</button>
+                        <button>SCSS</button>
+                        <button>Bootstrap</button>
+                        <button>Wordpress</button>
+                        <button>GIT</button>
+                        <button>Figma</button>
+                        <button>Photoshop</button>
+                    </section>
+                </section>
+            </div>
+
+            <div class="contact hide">
+                <h1>contact</h1>
+                <form id="contact-form" @submit.prevent="sendEmail">
+                    <section class="row">
+                        <input type="text" placeholder="Name" name="user_name" required />
+                        <input type="email" placeholder="Email" name="user_email" required />
+                    </section>
+
+                    <section class="column">
+                        <input type="text" placeholder="Topic" name="topic" required />
+                        <textarea rows="7" placeholder="Message" name="message" required></textarea>
+                    </section>
+
+                    <p v-show="messageSent" style="color: green;">{{pageText[0].contact}}</p>
+                    <button type="submit" :disabled="messageSending">
+                        <template v-if="!messageSending">
+                            SEND
+                        </template>
+                        <template v-else>
+                            <span class="material-icons" style="background-color: inherit;">
+                                more_horiz
+                            </span>
+                        </template>
+                    </button>
+                </form>
+
+                <section class=" socialMedia">
+                    <a href="https://github.com/PatrykBielanin" target="_blank"><img src="img/github.svg"
+                            alt="github"></a>
+                    <a href="https://linkedin.com/in/patryk-bielanin-a7787120b" target="_blank"><img
+                            src="img/linkedin.svg" alt="linkedin"></a>
+                    <a href="https://www.facebook.com/patryk.bielanin/" target="_blank"><img src="img/facebook.svg"
+                            alt="facebook"></a>
+                </section>
+            </div>
+
+            <button class="scrollTop">
+                <span class="material-icons">
+                    expand_less
+                </span>
+            </button>
+
+            <div class="footer">
+                <p>&copy; Copyright 2021 pbielanin. All rights reserved.</p>
+            </div>
+
+            <transition name="list">
+                <section v-if="modalOpen" class="modal">
+                    <span class="material-icons" @click="modalOpen = !modalOpen">close</span>
+                    <h2>{{modal[0].title}}</h2>
+                    <p>{{modal[0].desc}}</p>
+
+                    <section class="technologies">
+                        <p>Technologies:</p>
+                        <button v-for="tech in modal[0].technologies[0]" :key="tech">{{tech}}</button>
+                    </section>
+
+                    <section class="buttons">
+                        <a :href="modal[0].github" target="_blank">
+                            <button>GitHub</button>
+                        </a>
+                        <a :href="modal[0].demo" target="_blank">
+                            <button>Demo</button>
+                        </a>
+                    </section>
+                </section>
+            </transition>
+
+            <section class="sidebar">
+                <p>pbielanin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021
+                </p>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                modalOpen: false,
+                modal: [],
+                messageSending: false,
+                messageSent: false,
+                activeLang: "pl",
+                projects: [{
+                    "header": "WEATHER",
+                    "name": "Weather app",
+                    "description": "Weather forecast application for the next few days, you can choose a specific town.",
+                    "github": "https://github.com/PatrykBielanin/vue-weather-app",
+                    "demo": "http://app.pbielanin.pl/weather/",
+                    "technologies": [{
+                        "1": "Vue.js",
+                        "2": "SCSS"
+                    }],
+                    "styles": [{
+                        "bg:": "#FFFFFF",
+                        "fontSize": "68px"
+                    }]
+                },
+                {
+                    "header": "MOVIES",
+                    "name": "Movies base app",
+                    "description": "A database of films that allows you to save selected films to your favorites.",
+                    "github": "https://github.com/PatrykBielanin/vue-movie-base",
+                    "demo": "http://app.pbielanin.pl/movie-base/",
+                    "technologies": [{
+                        "1": "Vue.js",
+                        "2": "VueX",
+                        "3": "SCSS"
+                    }],
+                    "styles": [{
+                        "bg:": "red",
+                        "fontSize": "86px"
+                    }]
+                },
+                {
+                    "header": "NOTO",
+                    "name": "NOTO",
+                    "description": "Notes and todo-list application.",
+                    "github": "https://github.com/PatrykBielanin/vue-noto",
+                    "demo": "http://app.pbielanin.pl/noto/#/",
+                    "technologies": [{
+                        "1": "Vue.js",
+                        "2": "VueX",
+                        "3": "SCSS",
+                        "4": "Bootstrap"
+                    }],
+                    "styles": [{
+                        "bg:": "red",
+                        "fontSize": "96px"
+                    }]
+                },
+                {
+                    "header": "FLEX",
+                    "name": "Flex generator",
+                    "description": "Flex generator to html and css.",
+                    "github": "https://github.com/PatrykBielanin/vue-flex-generator",
+                    "demo": "http://app.pbielanin.pl/flex-generator/",
+                    "technologies": [{
+                        "1": "Vue.js",
+                        "2": "SCSS",
+                        "3": "Particles.js"
+                    }],
+                    "styles": [{
+                        "bg:": "red",
+                        "fontSize": "96px"
+                    }]
+                }
+                ],
+                pageTextPL: [{
+                    "cv": "https://pbielanin.pl/cv.pdf",
+                    "contact": "Wiadomość została wysłana!",
+                    "portfolio": "Cześć. Nazywam się Patryk i od 6 lat interesuje się programowaniem. Postanowiłem ukierunkować swój rozwój w front-end development i dlatego też na bieżąco zdobywam doświadczenie w tym kierunku, między innymi poprzez poszerzanie dotychczas zdobytej wiedzy i poznawanie nowych technologii. Swoją prace głównie opieram na frameworku Vue.js. ",
+                    "projects": "Większość moich dotychczasowych projektów opiera się na wspomnianym Vue.js oraz SCSS, a ich kod oraz wersje demo można zobaczyć poniżej (po kliknięciu w wybrany projekt). W niektórych z nich użyłem publicznych API, a w jeszcze innych różnych bibliotek jak chociażby Bootstrap, jQuery, VueX czy Particles.js. Aktualnie pracuje nad kolejnymi projektami, które poszerzą moje portfolio. ",
+                    "about": "Jak wspomniałem, nazywam się Patryk i mam 20 lat, a pasją do programowania param się od około 6 lat. Zaczynałem od prostych stronek w czystym HTMLu i CSSie, przechodząc do JSa i PHP. W między czasie pracowałem nad kilkoma projektami serwerów na platformie Multi Theft Auto, tworząc skrypty przy wykorzystaniu języka LUA. W szkole zaczerpnąłem nieco Pythona i jednocześnie stworzyłem kilka projektów we frameworku Django. Szanuje sobie organizacje pracy, czysty kod, proste rozwiązania, a przede wszystkim przyjazne relacje z współpracownikami czy klientami. Skończyłem technikum na kierunku technik-informatyk i zamierzam dalej rozwijać się w kierunku front-end developera, poznając przy tym jeszcze bardziej framework Vue.js oraz najnowsze technologie wprowadzane na rynek. "
+                }],
+                pageTextENG: [{
+                    "cv": "https://pbielanin.pl/cv_eng.pdf",
+                    "contact": "Message was sent!",
+                    "portfolio": "Hi. My name is Patryk and I have been interested in programming for 6 years. I decided to focus on front-end development so that's why I am gaining experience by expanding the knowledge I have so far and learning about new technologies. My projects are mainly based on the Vue.js framework.",
+                    "projects": "Most of my projects are based on the mentioned Vue.js and SCSS. Their code and demo versions can be seen below (after clicking on specific project). In some of them i used public APIs, various libraries such as Bootstrap, jQuery, VueX or Particles.js. Currently I am working on other projects to my portfolio.",
+                    "about": "As I mentioned, my name is Patryk and I'm 20 years old. I've been passionate about programming for about 6 years. I started with simple pure HTML and CSS websites, moving to JS and PHP. In the meantime, I was working on several server projects on the Multi Theft Auto platform, creating scripts using the LUA language. At school, I have learned a bit of Python and created several projects in the Django framework. I'm kind of person who respect work organization, clean code, simple solutions and above all, friendly relations with colleagues or clients. I graduated a technical secondary school as IT technician and I intend to continue learning as front-end developer, getting to know the Vue.js framework and the latest technologies and much more."
+                }],
+                pageText: []
+            },
+            methods: {
+                toggleModal(title, desc, technologies, github, demo) {
+                    this.modalOpen = true;
+                    this.modal = [{
+                        "title": title,
+                        "desc": desc,
+                        "technologies": technologies,
+                        "github": github,
+                        "demo": demo
+                    }];
+                },
+                sendEmail: function (e) {
+                    this.messageSending = true;
+                    emailjs.sendForm('')
+                        .then((result) => {
+                            this.messageSending = false;
+                            this.messageSent = true;
+                        }, (error) => {
+                            return
+                        });
+                }
+            },
+            watch: {
+                activeLang() {
+                    if (this.activeLang == "pl") {
+                        this.pageText = this.pageTextPL;
+                    } else {
+                        this.pageText = this.pageTextENG;
+                    }
+                }
+            },
+            created() {
+                pageText: this.pageText = this.pageTextPL;
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

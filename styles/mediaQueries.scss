@@ -1,0 +1,168 @@
+@media (max-width: 1400px){
+    .wrapper{
+        .wrapperImg{
+            display: none;
+        }
+        .wrapperText{
+            min-width: 100%;
+            text-align: center;
+            *{
+                margin: auto;
+            }
+        }
+    }
+
+    .projects{
+        p{
+            max-width: 50%;
+        }
+    }
+
+
+    .about{
+        p{
+            max-width: 50%;
+        }
+    }
+
+    .contact{
+        .row{
+            input{
+                width: 25%;
+            }
+        }
+
+        .column{
+            input, textarea{
+                min-width: calc(50% + 60px);
+                max-width: calc(50% + 60px);
+            }
+        }
+    }
+}
+
+@media (max-width: 840px){
+    .wrapper{
+        .wrapperText{
+            min-width: 100%;
+
+            p{
+                max-width: 70%;
+            }
+        }
+    }
+
+    .sidebar{
+        display: none;
+    }
+
+    .projects{
+        .frontend{
+            display: none;
+        }
+
+        p{
+            max-width: 70%;
+        }
+    }
+
+
+    .about{
+        p{
+            max-width: 70%;
+        }
+    }
+
+    .scrollTop{
+        position: static;
+        display: flex;
+        margin: auto;
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 540px){
+    .alert{
+        font-size: 24px;
+    }
+    .wrapper{
+        .wrapperText{
+            h1{
+                font-size: 68px;
+                text-align: center;
+            }
+            p{
+                max-width: 95%;
+            }
+
+            .buttons{
+                button{
+                    margin: 10px;
+                }
+            }
+        }
+    }
+
+    .projects{
+        h1{
+            font-size: 64px;
+        }
+
+        p{
+            max-width: 95%;
+        }
+
+        .projectsDivs{
+            .project{
+                width: 300px;
+                height: 375px;
+
+                .image{
+                    width: 300px;
+                    height: 200px;
+                    h1{
+                        font-size: 43px !important;
+                    }
+                }
+
+                .projectInfo{
+                    h2{
+                        font-size: 24px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .about{
+        h1{
+            font-size: 64px;
+        }
+        p{
+            max-width: 95%;
+        }
+    }
+
+    .contact{
+        h1{
+            font-size: 64px;
+        }
+    }
+
+    .socialMedia{
+        flex-direction: column;
+        img{
+            margin-top: 10px;
+            width: 25%;
+        }
+    }
+
+    .modal{
+        height: auto;
+        width: 85vw;
+
+        .buttons{
+            flex-direction: column;
+        }
+    }
+}
