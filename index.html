@@ -299,7 +299,7 @@
                 },
                 sendEmail: function (e) {
                     this.messageSending = true;
-                    emailjs.sendForm('')
+                    emailjs.sendForm('service_twpup1a', 'template_33dktu9', e.target, 'user_1MjUfklRdrVqpgJsIkaG4')
                         .then((result) => {
                             this.messageSending = false;
                             this.messageSent = true;

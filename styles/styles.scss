@@ -38,7 +38,7 @@ $siteColor: rgb(126, 1, 126);
 }
 
 @mixin gifHeader{
-    background-image: url(https://media.giphy.com/media/WmiRpz0Kz0nzewi9mm/giphy.gif);
+    background-image: url('/img/waves-min.gif');
     background-size: cover;
     background-clip: text;
     -webkit-background-clip: text;
@@ -220,8 +220,7 @@ a{
                 height: 220px;
                 display: flex;
                 align-items: center;
-                background-image: url(https://media.giphy.com/media/26wcZlCq5O7pVD1sY/giphy.gif);
-                background-size: cover;
+                background-color: rgb(22, 8, 22);
                 border-bottom: 1px solid white;
 
                 h1{
